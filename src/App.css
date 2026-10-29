@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap');
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+
+:root{
+  --primary:#00A99D;
+  --secondry:#7C4DCC;
+  --tertiary:#F5A524;
+  --neutral:#5B6670;
+  --head-color:#121D25;
+  --span:#3C4947;
+
+
+}
+
+body {
+  font-family: 'Roboto Flex', sans-serif;
+}
