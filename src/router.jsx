@@ -7,6 +7,8 @@ import AuthLayout from "./layouts/AuthLayout";
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
+import Products from "./Products/Products";
+import Categories from "./Categories/Categories";
 
 const router = createBrowserRouter([
   {
@@ -27,13 +29,22 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/home",
+    path: "/",
     element: <MainLayout />,
     children: [
       {
-        index: true,
+        path: "home",
         element: <Home />,
       },
+      {
+        path: "products",
+        element: <Products />,
+      },
+      {
+        path: "categories",
+        element: <Categories />,
+      },
+      
     ],
   },
 ]);
