@@ -5,7 +5,7 @@ import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
 import Home from "./Home/Home";
-import Login from "./Login/Login";
+import Login from "./LogIn/LogIn";
 import Register from "./Register/Register";
 import Products from "./Products/Products";
 import Categories from "./Categories/Categories";
