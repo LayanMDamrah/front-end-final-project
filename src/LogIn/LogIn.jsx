@@ -22,7 +22,7 @@ export default function LogIn() {
     const onSubmit = async (data) => {
         setServerError('');
         try {
-            const response = await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/LogIn', data);
+            const response = await axios.post('https://knowledgeshop.runasp.net/api/auth/Account/Login', data);
             console.log('Login success:', response.data);
             navigate('/home');
         } catch (error) {
