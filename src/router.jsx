@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, Navigate } from "react-router";
 
 import MainLayout from "./layouts/MainLayout";
