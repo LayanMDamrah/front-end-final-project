@@ -1,11 +1,11 @@
 import { Box, Typography, Container, Chip } from "@mui/material";
 import { useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
 
 import HomeButton from "../componnents/HomeButton";
-import { getCategories } from "../api/categories";
+
 
 import paner from "../assets/paner.svg";
+import { UseCategories } from "../hooks/UseCategories";
 
 const categoryColors = [
   { background: "#F0E9FF", color: "#6B40CC" },
@@ -20,18 +20,11 @@ const categoryColors = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const {data,isLoading,isError}=UseCategories();
 
-  const {
-    data: categories = [],
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xlg">
       <Box
         sx={{
           display: "flex",
@@ -229,7 +222,7 @@ export default function Home() {
               },
             }}
           >
-            {categories.map((category, index) => {
+            {data.map((category, index) => {
               const colors =
                 categoryColors[index % categoryColors.length];
 
