@@ -1,6 +1,6 @@
-import { Box, Typography, Container, Chip } from "@mui/material";
+import { Box, Typography, Container,} from "@mui/material";
 import { useNavigate } from "react-router";
-
+import CatogoriesUi from "../componnents/CatogoriesUi";
 import HomeButton from "../componnents/HomeButton";
 
 
@@ -222,37 +222,13 @@ export default function Home() {
               },
             }}
           >
-            {data.map((category, index) => {
-              const colors =
-                categoryColors[index % categoryColors.length];
-
-              return (
-                <Chip
-                  key={category.id}
-                  label={category.name || `Category ${category.id}`}
-                  clickable
-                  onClick={() =>
-                    navigate(`/categories/${category.id}`)
-                  }
-                  sx={{
-                    flexShrink: 0,
-                    backgroundColor: colors.background,
-                    color: colors.color,
-                    fontSize: { xs: 12, sm: 14 },
-                    fontWeight: 600,
-                    height: 42,
-                    px: 1.5,
-                    borderRadius: 3,
-                    transition: "0.2s ease",
-                    "&:hover": {
-                      backgroundColor: colors.background,
-                      filter: "brightness(0.95)",
-                      transform: "translateY(-2px)",
-                    },
-                  }}
-                />
-              );
-            })}
+             {data.map((category, index) => (
+      <CatogoriesUi
+        key={category.id}
+        category={category}
+        colors={categoryColors[index % categoryColors.length]}
+      />
+    ))}
           </Box>
         )}
       </Box>
