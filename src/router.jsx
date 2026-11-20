@@ -8,6 +8,7 @@ import Login from "./LogIn/LogIn";
 import Register from "./Register/Register";
 import Products from "./Products/Products";
 import Categories from "./Categories/Categories";
+import ProuductsDetails from "./Products/ProuductsDetails";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         path: "categories",
         element: <Categories />,
       },
+      {
+        path:"products/:id",
+        element:<ProuductsDetails/>
+      }
       
     ],
   },

@@ -1,12 +1,14 @@
-import { Box, Typography, Container, Chip } from "@mui/material";
+import { Box, Typography, Container, } from "@mui/material";
 import { useNavigate } from "react-router";
-
+import CatogoriesUi from "../componnents/CatogoriesUi";
 import HomeButton from "../componnents/HomeButton";
+
 
 
 import paner from "../assets/paner.svg";
 import { UseCategories } from "../hooks/UseCategories";
-
+import { UseProducts } from "../hooks/UseProducts";
+import ProductCard from "../componnents/ProductCard";
 const categoryColors = [
   { background: "#F0E9FF", color: "#6B40CC" },
   { background: "#E5F3EE", color: "#287A58" },
@@ -20,7 +22,10 @@ const categoryColors = [
 
 export default function Home() {
   const navigate = useNavigate();
-  const {data,isLoading,isError}=UseCategories();
+  const { data, isLoading, isError } = UseCategories();
+  const { products, productsLoading, productsError } = UseProducts();
+
+
 
 
   return (
@@ -222,39 +227,82 @@ export default function Home() {
               },
             }}
           >
-            {data.map((category, index) => {
-              const colors =
-                categoryColors[index % categoryColors.length];
-
-              return (
-                <Chip
-                  key={category.id}
-                  label={category.name || `Category ${category.id}`}
-                  clickable
-                  onClick={() =>
-                    navigate(`/categories/${category.id}`)
-                  }
-                  sx={{
-                    flexShrink: 0,
-                    backgroundColor: colors.background,
-                    color: colors.color,
-                    fontSize: { xs: 12, sm: 14 },
-                    fontWeight: 600,
-                    height: 42,
-                    px: 1.5,
-                    borderRadius: 3,
-                    transition: "0.2s ease",
-                    "&:hover": {
-                      backgroundColor: colors.background,
-                      filter: "brightness(0.95)",
-                      transform: "translateY(-2px)",
-                    },
-                  }}
-                />
-              );
-            })}
+            {data.map((category, index) => (
+              <CatogoriesUi
+                key={category.id}
+                category={category}
+                colors={categoryColors[index % categoryColors.length]}
+              />
+            ))}
           </Box>
         )}
+        <Box>
+          <Typography
+            sx={{
+              fontSize: { xs: 11, sm: 12, md: 14 },
+              fontWeight: 400,
+              color: "var(--primary)",
+            }}
+          >
+            NEW ARRIVALS
+          </Typography>
+          <Box sx={{
+            display: "flex", justifyContent: "space-between"
+          }}>
+            <Typography
+              sx={{
+                fontSize: { xs: 15, sm: 20, md: 30 },
+                fontWeight: 600,
+              }}
+            >
+              Latest Products
+            </Typography>
+            <Typography
+              onClick={() => navigate("/products")}
+              sx={{
+                fontSize: { xs: 11, sm: 12, md: 14 },
+                fontWeight: 400,
+                color: "var(--primary)",
+                cursor: "pointer",
+                width: "fit-content",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Updated today
+            </Typography>
+          </Box>
+
+
+          <Typography
+            sx={{
+              fontSize: { xs: 10, sm: 12, md: 14 },
+              color: "var(--span)",
+            }}
+          >
+            Fresh drops sourced from independent artisanal workshops
+          </Typography>
+        </Box>
+        
+        {!productsError && !productsLoading && (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(2, minmax(0, 1fr))",
+                sm: "repeat(3, minmax(0, 1fr))",
+                md: "repeat(4, minmax(0, 1fr))",
+              },
+              gap: 2,
+            }}
+          >
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </Box>
+        )}
+
       </Box>
     </Container>
   );
