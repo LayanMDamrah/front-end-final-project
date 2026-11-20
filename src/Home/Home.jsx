@@ -284,6 +284,7 @@ export default function Home() {
             Fresh drops sourced from independent artisanal workshops
           </Typography>
         </Box>
+        
         {!productsError && !productsLoading && (
           <Box
             sx={{

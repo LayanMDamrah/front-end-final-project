@@ -22,6 +22,7 @@ export const UseProducts = () => {
   } = useQuery({
     queryKey: ["Products"],
     queryFn: getProducts,
+    staleTime:1000*60*5,
   });
 
   return { products, productsLoading, productsError };
