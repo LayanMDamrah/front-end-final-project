@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, Link } from "react-router";
 import UseProductsDetails from "../hooks/UseProductsDetails";
@@ -15,7 +16,6 @@ import {
   Stack,
   LinearProgress,
   Avatar,
-  InputBase,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -25,10 +25,6 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import CheckIcon from "@mui/icons-material/Check";
-
-const MAX_COMMENT_LENGTH = 500;
 
 const getInitials = (name = "") =>
   name
@@ -63,19 +59,11 @@ const timeAgo = (date) => {
   return "Just now";
 };
 
-export default function ProductsDetails({
-  onAdd,
-  onBuyNow,
-  onSubmitReview,
-}) {
+export default function ProductsDetails({ onAdd, onBuyNow }) {
   const { id } = useParams();
 
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const [newRating, setNewRating] = useState(0);
-  const [comment, setComment] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data, isPending, isError } = UseProductsDetails(id);
 
@@ -122,28 +110,6 @@ export default function ProductsDetails({
   }));
 
   const totalReviews = reviews.length;
-
-  const canSubmit =
-    newRating > 0 && comment.trim().length > 0 && !isSubmitting;
-
-  const handleSubmitReview = async () => {
-    if (!canSubmit) return;
-
-    try {
-      setIsSubmitting(true);
-
-      await onSubmitReview?.({
-        productId: product.id,
-        rating: newRating,
-        comment: comment.trim(),
-      });
-
-      setNewRating(0);
-      setComment("");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <Box
@@ -815,158 +781,6 @@ export default function ProductsDetails({
 
             {/* Right Column */}
             <Stack spacing={2.5}>
-              {/* Leave Your Feedback */}
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: 4,
-                  boxShadow: "0 3px 15px rgba(0,0,0,0.04)",
-                  p: { xs: 2.5, md: 3.5 },
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    justifyContent: "space-between",
-                    alignItems: { xs: "flex-start", sm: "center" },
-                    gap: 1.5,
-                    mb: 2.5,
-                  }}
-                >
-                  <Box>
-                    <Typography
-                      fontSize={17}
-                      fontWeight={700}
-                      color="var(--head-color)"
-                    >
-                      Leave Your Feedback
-                    </Typography>
-
-                    <Typography fontSize={12} color="var(--span)">
-                      Rate your experience with this product.
-                    </Typography>
-                  </Box>
-
-                  <Rating
-                    name="new-review-rating"
-                    value={newRating}
-                    onChange={(_, value) => setNewRating(value || 0)}
-                    size="large"
-                    sx={{ color: "var(--tertiary)" }}
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    backgroundColor: "#EAF3FC",
-                    borderRadius: 3,
-                    px: 2,
-                    pt: 2,
-                    pb: 1.5,
-                    border: "1px solid transparent",
-                    transition: "border-color 0.2s",
-                    "&:focus-within": {
-                      borderColor: "var(--primary)",
-                    },
-                  }}
-                >
-                  <InputBase
-                    multiline
-                    minRows={3}
-                    fullWidth
-                    value={comment}
-                    onChange={(e) =>
-                      setComment(
-                        e.target.value.slice(0, MAX_COMMENT_LENGTH)
-                      )
-                    }
-                    placeholder="Share your thoughts on the quality, finish, and everyday use..."
-                    inputProps={{ maxLength: MAX_COMMENT_LENGTH }}
-                    sx={{
-                      fontSize: 14,
-                      color: "var(--head-color)",
-                      "& textarea::placeholder": {
-                        color: "var(--neutral)",
-                        opacity: 1,
-                      },
-                    }}
-                  />
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      mt: 1.5,
-                    }}
-                  >
-                    <Stack
-                      direction="row"
-                      alignItems="center"
-                      spacing={0.5}
-                    >
-                      <LockOutlinedIcon
-                        sx={{
-                          fontSize: 13,
-                          color: "var(--neutral)",
-                        }}
-                      />
-
-                      <Typography fontSize={11} color="var(--neutral)">
-                        Secure submission
-                      </Typography>
-                    </Stack>
-
-                    <Typography
-                      fontSize={11}
-                      color="var(--neutral)"
-                      sx={{ fontFamily: "monospace" }}
-                    >
-                      {comment.length} / {MAX_COMMENT_LENGTH}
-                    </Typography>
-                  </Box>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    mt: 2,
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    disabled={!canSubmit}
-                    onClick={handleSubmitReview}
-                    startIcon={
-                      isSubmitting ? (
-                        <CircularProgress size={16} color="inherit" />
-                      ) : (
-                        <CheckIcon />
-                      )
-                    }
-                    sx={{
-                      backgroundColor: "var(--nav-text)",
-                      color: "white",
-                      borderRadius: 2.5,
-                      px: 3,
-                      py: 1.25,
-                      fontSize: 13,
-                      fontWeight: 600,
-                      textTransform: "none",
-                      boxShadow: "none",
-                      "&:hover": {
-                        backgroundColor: "var(--primary)",
-                        boxShadow: "none",
-                      },
-                    }}
-                  >
-                    Submit Review
-                  </Button>
-                </Box>
-              </Box>
-
               {/* Reviews */}
               {reviews.length > 0 ? (
                 reviews.map((review, index) => (
